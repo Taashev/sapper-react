@@ -1,44 +1,43 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Number } from './Number/Number';
 import style from './timer.module.css';
 
 interface ITimerProps {
-  m: number;
+  time: number;
+  setTime: React.Dispatch<React.SetStateAction<number>>;
   type: string;
+  start: boolean;
 }
 
-export function Timer({ m, type }: ITimerProps): JSX.Element {
-  const [minute, setMinute] = useState(m);
-  const [start, setStart] = useState(false);
-
-  function reset() {
-    setMinute(m);
-    setStart(false);
-  }
-
+export function Timer({
+  time,
+  setTime,
+  type,
+  start,
+}: ITimerProps): JSX.Element {
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
     if (type === 'timer' && start) {
       timer = setTimeout(() => {
-        setMinute((dev) => --dev);
-      }, 60_000);
+        setTime((dev) => --dev);
+      }, 60000);
     }
 
     if (type === 'stopwatch' && start) {
       timer = setTimeout(() => {
-        setMinute((dev) => ++dev);
-      }, 1_000);
+        setTime((dev) => ++dev);
+      }, 1000);
     }
 
     return () => clearTimeout(timer);
-  }, [minute, start]);
+  }, [time, start]);
 
   return (
     <div className={style.timer}>
-      <Number number={minute.toString().padStart(3, '0')[0]} />
-      <Number number={minute.toString().padStart(3, '0')[1]} />
-      <Number number={minute.toString().padStart(3, '0')[2]} />
+      <Number number={time.toString().padStart(3, '0')[0]} />
+      <Number number={time.toString().padStart(3, '0')[1]} />
+      <Number number={time.toString().padStart(3, '0')[2]} />
     </div>
   );
 }

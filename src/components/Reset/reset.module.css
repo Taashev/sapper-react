@@ -1,0 +1,14 @@
+.reset {
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: none;
+  overflow: hidden;
+  /* background: url('../../images/sprite.png') no-repeat -0px -49px/270px 170px; */
+}
+
+.reset__img {
+  width: 281px;
+  height: 170px;
+  transform: translate(-0px, -49px);
+}
