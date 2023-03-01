@@ -1,2 +1,46 @@
 .app {
+  width: 100%;
+  min-width: 550px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(150, 150, 150);
+}
+
+.sapper {
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--offset-base-size) * 2.5);
+  background: var(--background);
+  border-top: var(--offset-base-size) solid var(--border-color);
+  border-right: var(--offset-base-size) solid var(--border-color-alt);
+  border-bottom: var(--offset-base-size) solid var(--border-color-alt);
+  border-left: var(--offset-base-size) solid var(--border-color);
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: calc(var(--offset-base-size) * 2.5);
+  padding: calc(var(--offset-base-size) * 2.5);
+  background: var(--background-alt);
+  border-top: var(--offset-base-size) solid var(--border-color-alt);
+  border-right: var(--offset-base-size) solid var(--border-color);
+  border-bottom: var(--offset-base-size) solid var(--border-color);
+  border-left: var(--offset-base-size) solid var(--border-color-alt);
+  box-sizing: border-box;
+}
+
+.minefield {
+  display: grid;
+  grid-template-columns: repeat(16, calc(var(--offset-base-size) * 8));
+  grid-auto-rows: calc(var(--offset-base-size) * 8);
+  background: var(--background);
+  border-top: var(--offset-base-size) solid var(--border-color-alt);
+  border-right: var(--offset-base-size) solid var(--border-color);
+  border-bottom: var(--offset-base-size) solid var(--border-color);
+  border-left: var(--offset-base-size) solid var(--border-color-alt);
+  box-sizing: border-box;
 }

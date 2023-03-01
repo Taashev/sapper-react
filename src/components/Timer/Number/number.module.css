@@ -1,0 +1,11 @@
+.number {
+  width: 26px;
+  height: 46px;
+  overflow: hidden;
+}
+
+.timer__img {
+  width: 294px;
+  height: 165px;
+  transform: translateX(-267px);
+}

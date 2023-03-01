@@ -1,3 +1,10 @@
 body {
+  --background: #bdbdbd;
+  --background-alt: #c0c0c0;
+  --border-color: #d6d6d6;
+  --border-color-alt: #9e9e9e;
+
+  --offset-base-size: 4px;
+
   margin: 0;
 }
