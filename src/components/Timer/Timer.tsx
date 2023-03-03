@@ -18,13 +18,13 @@ export function Timer({
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
-    if (type === 'timer' && start) {
+    if (start && type === 'timer') {
       timer = setTimeout(() => {
-        setTime((dev) => --dev);
+        setTime((dev: any) => --dev);
       }, 60000);
     }
 
-    if (type === 'stopwatch' && start) {
+    if (start && type === 'stopwatch') {
       timer = setTimeout(() => {
         setTime((dev) => ++dev);
       }, 1000);

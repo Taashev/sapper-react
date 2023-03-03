@@ -43,4 +43,5 @@
   border-bottom: var(--offset-base-size) solid var(--border-color);
   border-left: var(--offset-base-size) solid var(--border-color-alt);
   box-sizing: border-box;
+  position: relative;
 }

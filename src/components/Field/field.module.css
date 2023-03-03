@@ -1,0 +1,6 @@
+.field {
+  padding: 0;
+  border: none;
+  background: url('../../images/sprite.png') no-repeat -0px -97px/275px 160px;
+  overflow: hidden;
+}

@@ -1,26 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
+import { ResetButtonContext } from '../../contexts/ResetButtonContext';
 import sprite from '../../images/sprite.png';
 import style from './reset.module.css';
 
 interface IResetProps {
-  onClick: () => void;
+  onReset: () => void;
 }
 
-export function Reset({ onClick }: IResetProps): JSX.Element {
-  const [imgPosition, setImgPosition] = useState(0);
+export function Reset({ onReset }: IResetProps): JSX.Element {
+  const { resetButtonState, resetButtonDispatch } =
+    useContext(ResetButtonContext);
+
+  const { resetButtonImgPosition } = resetButtonState;
 
   function onMouseDown() {
-    setImgPosition(55);
+    resetButtonDispatch({ type: 'press' });
   }
 
   function onMouseUp() {
-    setImgPosition(0);
+    resetButtonDispatch({ type: 'smile' });
   }
 
   return (
     <button
       className={style.reset}
-      onClick={onClick}
+      onClick={onReset}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
     >
@@ -28,7 +32,7 @@ export function Reset({ onClick }: IResetProps): JSX.Element {
         className={style.reset__img}
         src={sprite}
         alt="smile"
-        style={{ transform: `translate(-${imgPosition}px, -49px` }}
+        style={{ transform: `translate(-${resetButtonImgPosition}px, -49px` }}
       />
     </button>
   );
