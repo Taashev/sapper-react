@@ -1,21 +1,22 @@
-export function createFields(size: number): number[] {
-  const BOMB = -1;
-  const fields = new Array(size * size).fill(0);
+import { IField } from '../types/IField';
+import { BOMB } from './constants';
 
+export function createBomb(fields: IField[], size: number): IField[] {
   function checkField(x: number, y: number) {
     if (x >= 0 && x < size && y >= 0 && y < size) {
-      if (BOMB === fields[y * size + x]) return;
-      fields[y * size + x] += 1;
+      if (BOMB === fields[y * size + x].value) return;
+      fields[y * size + x].value += 1;
     }
   }
 
-  for (let i = 0; i < size * 2; i++) {
+  for (let i = 0; i <= 40; i++) {
     const x = Math.floor(Math.random() * size);
     const y = Math.floor(Math.random() * size);
+    const index = y * size + x;
 
-    if (fields[y * size + x] === BOMB) continue;
+    if (fields[index].value === BOMB) continue;
 
-    fields[y * size + x] = BOMB;
+    fields[index].value = BOMB;
 
     checkField(x + 1, y);
     checkField(x - 1, y);

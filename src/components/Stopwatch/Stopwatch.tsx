@@ -1,37 +1,33 @@
 import { useEffect } from 'react';
-import { Number } from './Number/Number';
-import style from './timer.module.css';
+import { Number } from '../Number/Number';
+import style from './stopwatch.module.css';
 
-interface ITimerProps {
+interface IStopwatch {
+  start: boolean;
+  setStart: React.Dispatch<React.SetStateAction<boolean>>;
   time: number;
   setTime: React.Dispatch<React.SetStateAction<number>>;
-  type: string;
-  start: boolean;
 }
 
-export function Timer({
+export function Stopwatch({
+  start,
+  setStart,
   time,
   setTime,
-  type,
-  start,
-}: ITimerProps): JSX.Element {
+}: IStopwatch): JSX.Element {
   useEffect(() => {
     let timer: NodeJS.Timeout;
-
-    if (start && type === 'timer') {
-      timer = setTimeout(() => {
-        setTime((dev: any) => --dev);
-      }, 60000);
-    }
-
-    if (start && type === 'stopwatch') {
+    if (start) {
       timer = setTimeout(() => {
         setTime((dev) => ++dev);
       }, 1000);
-    }
 
+      if (999 <= time) {
+        setStart(false);
+      }
+    }
     return () => clearTimeout(timer);
-  }, [time, start]);
+  }, [start, time]);
 
   return (
     <div className={style.timer}>

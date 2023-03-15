@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import sprite from '../../../images/sprite.png';
+import sprite from '../../images/sprite.png';
 import style from './number.module.css';
 
 interface INumberState {
@@ -28,7 +28,7 @@ export function Number({ number }: INumberState): JSX.Element {
       case '8':
         return setPosition(208);
       case '9':
-        return setPosition(240);
+        return setPosition(238);
       default:
         return setPosition(268);
     }

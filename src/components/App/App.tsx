@@ -1,89 +1,108 @@
-import { useReducer, useState, useEffect } from 'react';
+import { useState } from 'react';
 
-import { ResetButtonContext } from '../../contexts/ResetButtonContext';
+import { TResetButton } from '../../types/TResetButton';
+import { IField } from '../../types/IField';
 
-import {
-  resetButtonInitialState,
-  resetButtonReducer,
-} from '../../reducers/resetButtonReducer';
-
-import { Timer } from '../Timer/Timer';
-import { Reset } from '../Reset/Reset';
+import { FlagCounter } from '../FlagCounter/FlagCounter';
+import { Stopwatch } from '../Stopwatch/Stopwatch';
+import { ResetButton } from '../ResetButton/ResetButton';
 import { Field } from '../Field/Field';
 import { Overlay } from '../Overlay/Overlay';
 
-import { createFields } from '../../utils/createFields';
+import { BOMB, SIZE } from '../../utils/constants';
+import { generateFields } from '../../utils/generateFields';
 
 import style from './app.module.css';
 
 function App() {
-  const initialFields = new Array(16 * 16).fill(0);
-
+  const [fields, setFields] = useState(generateFields(SIZE));
   const [start, setStart] = useState(false);
-  const [gameState, setGameState] = useState('default');
-  const [firstClick, setFirstClick] = useState(true);
-  const [timer, setTimer] = useState(40);
-  const [stopwatch, setStopwatch] = useState(0);
-  const [fields, setFields] = useState(createFields(16));
-
-  const [resetButtonState, resetButtonDispatch] = useReducer(
-    resetButtonReducer,
-    resetButtonInitialState
-  );
+  const [time, setTime] = useState(0);
+  const [flagCounter, setFlagCount] = useState(40);
+  const [resetButtonState, setResetButtonState] =
+    useState<TResetButton>('smile');
 
   function reset() {
     setStart(false);
-    setTimer(40);
-    setStopwatch(0);
-    setFields(initialFields);
+    setTime(0);
+    setFields(generateFields(SIZE));
+    setFlagCount(40);
+  }
+
+  function gameOver(fieldIgnore: IField) {
+    setStart(false);
+    setResetButtonState('lost');
+    setFields(
+      fields.map((i) => {
+        if (i.state === 'flag' && i.value === BOMB && fieldIgnore.id !== i.id) {
+          i.state = 'cleared';
+        } else if (
+          i.state === 'close' &&
+          i.value === BOMB &&
+          fieldIgnore.id !== i.id
+        ) {
+          i.state = 'open';
+        }
+        return i;
+      })
+    );
+  }
+
+  function winner() {
+    setStart(false);
+    setResetButtonState('winner');
   }
 
   function onStart() {
     if (!start) {
       setStart(true);
-      setFields(createFields(16));
     }
   }
 
   return (
-    <ResetButtonContext.Provider
-      value={{ resetButtonState, resetButtonDispatch }}
-    >
-      <div className={style.app}>
-        <section className={style.sapper}>
-          <header className={style.header}>
-            <Timer time={timer} setTime={setTimer} type="timer" start={start} />
-            <Reset onReset={reset} />
-            <Timer
-              time={stopwatch}
-              setTime={setStopwatch}
-              type="stopwatch"
-              start={start}
-            />
-          </header>
-          <div
-            className={style.minefield}
-            style={{
-              gridTemplateColumns: `repeat(${16}, calc(var(--offset-base-size) * 8))`,
-            }}
-          >
-            {gameState === 'winner' || (gameState === 'lost' && <Overlay />)}
-            {fields.map((value, index) => {
-              return (
-                <Field
-                  key={index}
-                  index={index}
-                  value={value}
-                  onStart={onStart}
-                  setStart={setStart}
-                  setGameState={setGameState}
-                />
-              );
-            })}
-          </div>
-        </section>
-      </div>
-    </ResetButtonContext.Provider>
+    <div className={style.app}>
+      <section className={style.sapper}>
+        <header className={style.header}>
+          <FlagCounter flagCounter={flagCounter} />
+          <ResetButton
+            onReset={reset}
+            state={resetButtonState}
+            setState={setResetButtonState}
+          />
+          <Stopwatch
+            time={time}
+            setTime={setTime}
+            start={start}
+            setStart={setStart}
+          />
+        </header>
+        <div
+          className={style.minefield}
+          style={{
+            gridTemplateColumns: `repeat(${SIZE}, calc(var(--offset-base-size) * 8))`,
+          }}
+        >
+          {resetButtonState === 'lost' && <Overlay />}
+          {resetButtonState === 'winner' && <Overlay />}
+          {fields.map((field) => {
+            return (
+              <Field
+                key={field.id}
+                field={field}
+                fields={fields}
+                setFields={setFields}
+                onStart={onStart}
+                setResetButtonState={setResetButtonState}
+                gameOver={gameOver}
+                winner={winner}
+                flagCounter={flagCounter}
+                setFlagCount={setFlagCount}
+              />
+            );
+          })}
+        </div>
+      </section>
+    </div>
   );
 }
 
