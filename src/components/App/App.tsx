@@ -23,25 +23,31 @@ function App() {
     useState<TResetButton>('smile');
 
   function reset() {
+    setFields(generateFields(SIZE));
     setStart(false);
     setTime(0);
-    setFields(generateFields(SIZE));
     setFlagCount(40);
   }
 
-  function gameOver(fieldIgnore: IField) {
+  function gameOver(explosionField: IField) {
     setStart(false);
     setResetButtonState('lost');
     setFields(
       fields.map((i) => {
-        if (i.state === 'flag' && i.value === BOMB && fieldIgnore.id !== i.id) {
-          i.state = 'cleared';
+        if (
+          i.state === 'flag' &&
+          i.value === BOMB &&
+          explosionField.id !== i.id
+        ) {
+          i.state = 'harmless';
         } else if (
           i.state === 'close' &&
           i.value === BOMB &&
-          fieldIgnore.id !== i.id
+          explosionField.id !== i.id
         ) {
           i.state = 'open';
+        } else if (explosionField.id === i.id) {
+          i.state = 'explosion';
         }
         return i;
       })

@@ -55,7 +55,8 @@ export function Field({
       const openedFields = getOpenedFields(
         fields,
         coordinates.x,
-        coordinates.y
+        coordinates.y,
+        SIZE
       );
 
       if (isWinner(openedFields)) {
@@ -65,9 +66,20 @@ export function Field({
       setFields(openedFields);
 
       if (!isFirstClick && BOMB === value) {
-        setImgPosition({ x: 203, y: 97 });
         gameOver(field);
       }
+
+      return;
+    }
+
+    if ('open' === state && 1 === value) {
+      const openedFields = getOpenedFields(
+        fields,
+        coordinates.x,
+        coordinates.y,
+        SIZE
+      );
+      setFields(openedFields);
     }
   }
 
@@ -87,21 +99,23 @@ export function Field({
     e.preventDefault();
 
     const copyFields = JSON.parse(JSON.stringify(fields));
-    let field = copyFields[coordinates.y * SIZE + coordinates.x];
+    const field = copyFields[coordinates.y * SIZE + coordinates.x];
 
     if (field.state === 'open') return;
 
     if (field.state === 'close' && 0 <= flagCounter - 1) {
-      field = { ...field, state: 'flag' };
+      field.state = 'flag';
       setFlagCount(flagCounter - 1);
-    } else if (field.state === 'flag') {
-      field = { ...field, state: 'question' };
-			setFlagCount(flagCounter + 1);
+    } else if (
+      field.state === 'flag' ||
+      (field.state === 'close' && 0 <= flagCounter - 1)
+    ) {
+      field.state = 'question';
+      setFlagCount(flagCounter + 1);
     } else {
-      field = { ...field, state: 'close' };
+      field.state = 'close';
     }
 
-    copyFields[coordinates.y * SIZE + coordinates.x] = field;
     setFields(copyFields);
   }
 
@@ -119,8 +133,9 @@ export function Field({
       if (8 === value) return setImgPosition({ x: 235, y: 130 });
     } else {
       if ('flag' === state) return setImgPosition({ x: 67, y: 98 });
-      if ('cleared' === state) return setImgPosition({ x: 236, y: 98 });
       if ('question' === state) return setImgPosition({ x: 101, y: 98 });
+      if ('harmless' === state) return setImgPosition({ x: 236, y: 98 });
+      if ('explosion' === state) return setImgPosition({ x: 203, y: 97 });
       return setImgPosition({ x: 0, y: 98 });
     }
   }, [state, value]);
