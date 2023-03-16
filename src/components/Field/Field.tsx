@@ -106,10 +106,9 @@ export function Field({
     if (field.state === 'close' && 0 <= flagCounter - 1) {
       field.state = 'flag';
       setFlagCount(flagCounter - 1);
-    } else if (
-      field.state === 'flag' ||
-      (field.state === 'close' && 0 <= flagCounter - 1)
-    ) {
+    } else if (field.state === 'close' && 0 >= flagCounter) {
+      field.state = 'question';
+    } else if (field.state === 'flag') {
       field.state = 'question';
       setFlagCount(flagCounter + 1);
     } else {

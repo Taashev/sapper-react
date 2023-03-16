@@ -44,8 +44,6 @@ export function getOpenedFields(
     fieldOpen(x - 1, y + 1, size, copyFields, clearing);
   }
 
-  console.log(clearing);
-
   while (clearing.length) {
     const [x, y] = clearing.pop()!!;
     const field = copyFields[y * size + x];
