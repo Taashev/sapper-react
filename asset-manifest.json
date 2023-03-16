@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/sapper-react/static/css/main.560a80fc.css",
-    "main.js": "/sapper-react/static/js/main.be5bba44.js",
+    "main.js": "/sapper-react/static/js/main.ae4f8b6f.js",
     "static/js/787.2f7b59f1.chunk.js": "/sapper-react/static/js/787.2f7b59f1.chunk.js",
     "index.html": "/sapper-react/index.html",
     "main.560a80fc.css.map": "/sapper-react/static/css/main.560a80fc.css.map",
-    "main.be5bba44.js.map": "/sapper-react/static/js/main.be5bba44.js.map",
+    "main.ae4f8b6f.js.map": "/sapper-react/static/js/main.ae4f8b6f.js.map",
     "787.2f7b59f1.chunk.js.map": "/sapper-react/static/js/787.2f7b59f1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.560a80fc.css",
-    "static/js/main.be5bba44.js"
+    "static/js/main.ae4f8b6f.js"
   ]
 }
